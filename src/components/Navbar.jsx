@@ -5,10 +5,10 @@ import { FaRegUserCircle } from "react-icons/fa";
 
 function Navbar() {
    return (
-      <nav className="bg-teal-700">
+      <nav id='navegacion' className="bg-teal-700">
          <ul className="grid grid-cols-12 gap-x-3 py-3 px-5 items-center text-center">
             <li className="col-start-1">
-               <NavLink to={"."}>
+               <NavLink to={"/dashboard"}>
                   <img
                      src={LogoUVM}
                      alt="Logo UVM"
@@ -18,7 +18,7 @@ function Navbar() {
             </li>
             <li className="col-start-10">
                <NavLink
-                  to={"."}
+                  to={"/dashboard"}
                   className={({ isActive }) =>
                   isActive
                      ? "font-bold text-lg text-white"
@@ -30,7 +30,7 @@ function Navbar() {
             </li>
             <li className="col-start-11">
                <NavLink
-                  to={"events"}
+                  to={"/dashboard/events"}
                   className={({ isActive }) =>
                      isActive
                         ? "font-bold text-lg text-white"
@@ -42,7 +42,7 @@ function Navbar() {
             </li>
             <li className="col-start-12">
                <NavLink
-                  to={"profile"}
+                  to={"/dashboard/profile"}
                   className={({ isActive }) =>
                      isActive
                         ? "font-bold text-lg text-white flex justify-center"

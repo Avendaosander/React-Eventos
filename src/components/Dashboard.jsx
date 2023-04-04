@@ -44,7 +44,7 @@ function Dashboard() {
             </article>
          </section>
          <section className="flex flex-col justify-center items-center text-center pb-5">
-            <h2 className="text-center text-xl font-bold text-slate-800 p-4">
+            <h2 className="text-center text-2xl font-bold text-slate-800 p-4">
                Proximos Eventos
             </h2>
             <div className="grid grid-cols-3 gap-10 px-20">
@@ -52,7 +52,7 @@ function Dashboard() {
             </div>
          </section>
          <section className="flex flex-col justify-center items-center text-center pb-5">
-            <h2 className="text-center text-xl font-bold text-slate-800 p-4">Ultimos Eventos</h2>
+            <h2 className="text-center text-2xl font-bold text-slate-800 p-4">Ultimos Eventos</h2>
             <div className="grid grid-cols-3 gap-10 px-20">
                <RecentEvents eventos={recentsEvents}/>
             </div>

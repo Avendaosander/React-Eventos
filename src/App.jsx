@@ -7,6 +7,7 @@ import Notfound from "./pages/NotFound";
 import Footer from './components/Footer'
 import Eventos from "./pages/Eventos";
 import Perfil from "./pages/Perfil";
+import Evento from "./pages/Evento";
 
 // const routesNoNav = ['/', '/login', '/register']
 
@@ -26,6 +27,7 @@ function App() {
                   <Route path="my-events" element={<Eventos/>} />
                   <Route path="profile" element={<Perfil/>} />
                </Route>
+               <Route path="/evento/:eventID" element={<Evento/>} />
                <Route path="*" element={<Notfound />} />
             </Routes>
          </BrowserRouter>

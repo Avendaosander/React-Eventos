@@ -1,6 +1,7 @@
 import React from "react";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
 import { BsCalendarX } from "react-icons/bs";
+import { Link } from "react-router-dom";
 
 function CardEventsOld({ event }) {
    return (
@@ -14,9 +15,12 @@ function CardEventsOld({ event }) {
          <p className="text-slate-900 text-lg font-semibold flex items-center gap-1">
             <BsCalendarX /> Evento Finalizado
          </p>
-         <button className="text-slate-900 text-lg font-semibold bg-green-600 py-1 px-4 rounded-lg">
+         <Link
+            to={`/evento/${event._id}`}
+            className="text-slate-900 text-lg font-semibold bg-green-600 py-1 px-4 rounded-lg"
+         >
             Ver Detalles
-         </button>
+         </Link>
       </>
    );
 }

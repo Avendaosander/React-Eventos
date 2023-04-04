@@ -43,7 +43,7 @@ function Eventos() {
 
    return (
       <>
-         <h2 className="text-center text-xl font-bold text-slate-800 pt-4">
+         <h2 className="text-center text-2xl font-bold text-slate-800 pt-4">
             Eventos
          </h2>
          <form className="py-4 px-20 flex justify-center" onSubmit={handleSubmit}>
@@ -51,6 +51,7 @@ function Eventos() {
                type="text"
                className="bg-teal-100 w-3/5 px-5 py-1 ring-1 ring-teal-300 text-slate-900 font-medium outline-none rounded-lg focus:ring-2 focus:ring-teal-600"
                onChange={(e) => setBusqueda(e.target.value)}
+               value={busqueda}
                autoFocus
             />
             <button className="bg-teal-600 ml-2 py-1 px-2 rounded-xl text-center text-white font-semibold">

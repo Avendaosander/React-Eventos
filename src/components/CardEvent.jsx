@@ -5,6 +5,7 @@ import { BsPinMap } from "react-icons/bs";
 import { BsStarFill } from "react-icons/bs";
 import { BsStar } from "react-icons/bs";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
+import { Link } from "react-router-dom";
 
 function CardEvent({ event }) {
    const [fav, setFav] = useState(false);
@@ -39,9 +40,12 @@ function CardEvent({ event }) {
                <p className="text-slate-900 text-lg font-semibold flex items-center gap-1">
                   <BsPinMap /> {event.lugar}
                </p>
-               <button className="text-slate-900 text-lg font-semibold bg-green-600 py-1 px-4 rounded-lg">
+               <Link
+                  to={`/evento/${event._id}`}
+                  className="text-slate-900 text-lg font-semibold bg-green-600 py-1 px-4 rounded-lg"
+               >
                   Ver Detalles
-               </button>
+               </Link>
             </div>
          </div>
       </>
