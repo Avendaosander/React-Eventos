@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.absolute-footer{
+   position: fixed;
+   bottom: 0;
+}
