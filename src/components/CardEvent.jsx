@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 
 function CardEvent({ event, favorite = false }) {
    const [fav, setFav] = useState(favorite);
+   const id = JSON.parse(localStorage.getItem("userID"))
    
    const handleFavorite = () => {
       const validateFavorite = async() => {
@@ -15,14 +16,16 @@ function CardEvent({ event, favorite = false }) {
                "Content-Type": "application/json"
             },
             body: JSON.stringify({ 
-               userID
+               userID: id
             })
          })
             .then(res => res.json())
-            .then(res => setFav(res.fav))
+            .then(res => {
+               if (res.messageError) return console.error(res.messageError)
+               return setFav(res.fav)
+            })
       }
-      // validateFavorite()
-      return fav ? setFav(false) : setFav(true);
+      validateFavorite()
    };
    // console.log(fav);
    return (

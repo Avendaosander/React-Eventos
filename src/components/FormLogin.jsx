@@ -31,6 +31,10 @@ function FormLogin() {
                setEmail("");
                setPassword("");
                localStorage.setItem("token", JSON.stringify(res.token));
+               localStorage.setItem("userID", JSON.stringify(res.user.id));
+               localStorage.setItem("imgPerfil", JSON.stringify(res.user.imgPerfil));
+               localStorage.setItem("favorites", JSON.stringify(res.user.favorites));
+               localStorage.setItem("rol", JSON.stringify(res.user.rol));
                navegar("/dashboard")
             })
       };

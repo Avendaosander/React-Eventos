@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 
 function Perfil() {
    const [perfil, setPerfil] = useState([]);
+   const userID = JSON.parse(localStorage.getItem("userID"))
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -12,10 +13,11 @@ function Perfil() {
       }
       const obtenerEventos = async () => {
          await fetch(
-            "http://localhost:3000/app/profile/643083ba9cc1a0bce1b6e152"
+            `http://localhost:3000/app/profile/${userID}`
          )
             .then((res) => res.json())
             .then((res) => {
+               if (res.messageError) return console.error(res.messageError);
                setPerfil(res.user);
             });
       };

@@ -1,11 +1,25 @@
-import { NavLink } from "react-router-dom";
+import {  NavLink, useNavigate } from "react-router-dom";
 import LogoUVM from "../assets/LogoUVM.jpg";
 import { BsPower } from "react-icons/bs";
+import { useState } from "react";
 
 function Navbar() {
+   const [show, setShow] = useState(false)
+   const navegar = useNavigate()
+
+   const toggleOptions = () => {
+      setShow(!show)
+   }
+   const toPerfil = () => {
+      navegar('profile')
+   }
+   const logout = () => {
+      localStorage.clear()
+      navegar('/login')
+   }
    return (
       <nav id="navegacion" className="bg-teal-700">
-         <ul className="grid grid-cols-12 gap-x-3 py-3 px-5 items-center text-center">
+         <ul className="grid grid-cols-12 gap-x-3 py-3 items-center text-center">
             <li className="col-start-1">
                <NavLink to={"/dashboard"}>
                   <img
@@ -51,10 +65,10 @@ function Navbar() {
                   Favoritos
                </NavLink>
             </li>
-            <li className="col-start-12">
+            <li className="col-start-12 relative">
                <NavLink
-                  to={"/dashboard/profile"}
                   className="flex justify-center hover:scale-110"
+                  onClick={toggleOptions}
                >
                   <img
                      src="https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901101/Eventos%20UVM/1680901103272-usuario.png"
@@ -62,10 +76,21 @@ function Navbar() {
                      className="w-9"
                   />
                </NavLink>
+               <div className={show ? "bg-teal-700/90 absolute w-full -bottom-24 flex flex-col rounded-b-xl" : " hidden"}>
+                  <button onClick={toPerfil} className="flex gap-2 p-2 items-center justify-center hover:bg-teal-400 rounded-lg">
+                     <img
+                        src="https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901101/Eventos%20UVM/1680901103272-usuario.png"
+                        alt="Imagen de Perfil"
+                        className="w-6"
+                     />
+                     Perfil
+                  </button>
+                  <button onClick={logout} className="flex gap-2 p-2 items-center justify-center hover:bg-teal-400 rounded-lg">
+                     <BsPower className="font-black text-2xl text-slate-800 hover:text-white" />
+                     Salir
+                  </button>
+               </div>
             </li>
-            {/* <NavLink to={"/login"}>
-                  <BsPower className="font-black text-2xl text-slate-800 m-auto hover:scale-125" />
-               </NavLink> */}
          </ul>
       </nav>
    );

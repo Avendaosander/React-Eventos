@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 function Eventos() {
    const [events, setEvents] = useState([]);
+   const [favoritos, setFavoritos] = useState([])
    const [busqueda, setBusqueda] = useState("");
    const navigate = useNavigate()
 
@@ -13,6 +14,8 @@ function Eventos() {
       if ("token" in localStorage === false) {
          return navigate("/login");
       }
+      const favoritos = JSON.parse(localStorage.getItem("favorites"))
+      setFavoritos(favoritos)
       const obtenerEventos = async() => {
          await fetch('http://localhost:3000/app/events')
             .then(res => res.json())
@@ -75,7 +78,7 @@ function Eventos() {
                   className="relative rounded-xl bg-teal-700 flex flex-col hover:scale-105"
                   key={evento._id}
                >
-                  <CardEvent event={evento} />
+                  <CardEvent event={evento} favorite={favoritos.includes(evento._id) ? true : false}/>
                </article>
             ))}
          </section>
