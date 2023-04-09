@@ -1,16 +1,27 @@
 import React from "react";
 import { useState } from "react";
-import { BsCalendarDate } from "react-icons/bs";
-import { BsPinMap } from "react-icons/bs";
-import { BsStarFill } from "react-icons/bs";
-import { BsStar } from "react-icons/bs";
+import { BsCalendarDate, BsPinMap, BsStarFill, BsStar } from "react-icons/bs";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
 import { Link } from "react-router-dom";
 
-function CardEvent({ event }) {
-   const [fav, setFav] = useState(false);
-
+function CardEvent({ event, favorite = false }) {
+   const [fav, setFav] = useState(favorite);
+   
    const handleFavorite = () => {
+      const validateFavorite = async() => {
+         await fetch(`http://localhost:3000/app/add-favorite/${event._id}`,{ 
+            method: 'POST',
+            headers: { 
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+               userID
+            })
+         })
+            .then(res => res.json())
+            .then(res => setFav(res.fav))
+      }
+      // validateFavorite()
       return fav ? setFav(false) : setFav(true);
    };
    // console.log(fav);

@@ -1,21 +1,46 @@
 import { useState } from "react";
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function FormRegister() {
    const [username, setUsername] = useState("")
    const [email, setEmail] = useState("");
    const [password, setPassword] = useState("");
    const [repeatPassword, setRepeatPassword] = useState("");
+   const navegar = useNavigate();
 
    const handleSubmit = (e) => {
       e.preventDefault();
-      console.log(username, email, password, repeatPassword);
+      // console.log(email, password);
+      if (email === "") return;
+      if (password === "") return;
+      if (password !== repeatPassword) return console.warn("Las contraseñas no coinciden");
 
-      setUsername("");
-      setEmail("");
-      setPassword("");
-      setRepeatPassword("");
-   };
+      const register = async () => {
+         await fetch(`http://localhost:3000/register`,{ 
+            method: 'POST',
+            headers: { 
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+               username,
+               email,
+               password
+            })
+         })
+            .then(res => res.json())
+            .then(res => {
+               if (res.messageError) return console.error(res.messageError)
+               // console.log(res.token);
+               setUsername("");
+               setEmail("");
+               setPassword("");
+               setRepeatPassword("");
+               localStorage.setItem("token", JSON.stringify(res.token));
+               navegar("/dashboard")
+            })
+      };
+      register();
+   }
 
    return (
       <form className="flex justify-around flex-col gap-6 px-10 py-10 bg-slate-800 w-3/5 h-5/6 m-auto rounded-3xl text-center" onSubmit={handleSubmit}>

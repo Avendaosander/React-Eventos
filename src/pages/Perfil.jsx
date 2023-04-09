@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
-import CardEvent from "../components/CardEvent";
+import { useEffect, useState } from "react";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
+import { useNavigate } from "react-router-dom";
 
 function Perfil() {
    const [perfil, setPerfil] = useState([]);
-   const [events, setEvents] = useState([]);
+   const navigate = useNavigate()
 
    useEffect(() => {
+      if ("token" in localStorage === false) {
+         return navigate("/login");
+      }
       const obtenerEventos = async () => {
          await fetch(
-            "http://localhost:3000/app/favorites/642b30d8e1a43e1ef48b5c92"
+            "http://localhost:3000/app/profile/643083ba9cc1a0bce1b6e152"
          )
             .then((res) => res.json())
             .then((res) => {
-               setPerfil(res.eventos);
-               setEvents(res.eventos.favorites);
+               setPerfil(res.user);
             });
       };
       obtenerEventos();
@@ -56,7 +58,7 @@ function Perfil() {
                   </h3>
                </article>
                <article className="col-span-2 flex flex-col justify-evenly items-start">
-                  <p className="p-1">Avendaosander</p>
+                  <p className="p-1">{perfil.username}</p>
                   <p className="p-1">{perfil.nombre}</p>
                   <p className="p-1">{perfil.apellido}</p>
                   <p className="p-1">{perfil.telefono}</p>
@@ -66,23 +68,6 @@ function Perfil() {
             <button className="text-white text-lg font-semibold bg-teal-600 py-1 px-4 rounded-lg">
                Editar
             </button>
-            <section>
-               <h2 className="text-center text-2xl font-bold text-slate-800 p-4">
-                  Mis Eventos Favoritos
-               </h2>
-               <section className="grid grid-cols-3 gap-10 px-20 py-5">
-                  {!events
-                     ? null
-                     : events.map((evento) => (
-                          <article
-                             className="relative rounded-xl bg-teal-700 flex flex-col hover:scale-105"
-                             key={evento._id}
-                          >
-                             <CardEvent event={evento} />
-                          </article>
-                       ))}
-               </section>
-            </section>
          </main>
       </>
    );

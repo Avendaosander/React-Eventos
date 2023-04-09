@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function Evento() {
    const [event, setEvent] = useState([]);
    const [participantes, setParticipantes] = useState([]);
    const [keywords, setKeywords] = useState([]);
    const param = useParams();
+   const navigate = useNavigate()
+
    useEffect(() => {
-      const obtenerEventos = async() => {
+      if ("token" in localStorage === false) {
+         return navigate("/login");
+      }
+      const obtenerEvento = async() => {
          await fetch(`http://localhost:3000/events/event/${param.eventID}`)
             .then(res => res.json())
             .then(res => {
@@ -18,7 +23,7 @@ function Evento() {
                setKeywords(res.evento.keywords)
             })
       }
-      obtenerEventos()
+      obtenerEvento()
    }, [])
    // console.log(event);
    // console.log(participantes);
@@ -83,8 +88,8 @@ function Evento() {
                   <h3 className="text-center text-xl font-bold text-slate-800 p-1">
                      Palabras Claves:
                   </h3>
-                  {keywords.map((index ,key) => (
-                     <p key={key}>{index}</p>
+                  {keywords.map((key) => (
+                     <p key={key}>{key}</p>
                   ))}
                </article>
             </section>

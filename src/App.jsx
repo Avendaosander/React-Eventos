@@ -8,8 +8,8 @@ import Footer from './components/Footer'
 import Eventos from "./pages/Eventos";
 import Perfil from "./pages/Perfil";
 import Evento from "./pages/Evento";
-
-// const routesNoNav = ['/', '/login', '/register']
+import Favoritos from "./pages/Favoritos";
+import NewEvent from "./pages/NewEvent";
 
 function App() {
    return (
@@ -18,16 +18,17 @@ function App() {
             <Routes>
                <Route path="/" element={<Login />}>
                   <Route path="login" element={<FormLogin />} />
-                  <Route path="login-admin" element={<FormLogin />} />
                   <Route path="register" element={<FormRegister />} />
                   <Route path="register-admin" element={<FormRegister />} />
                </Route>
                <Route path="/dashboard/*" element={<Home/>} >
                   <Route path="events" element={<Eventos/>} />
+                  <Route path="favoritos" element={<Favoritos/>} />
                   <Route path="my-events" element={<Eventos/>} />
                   <Route path="profile" element={<Perfil/>} />
                </Route>
                <Route path="/evento/:eventID" element={<Evento/>} />
+               <Route path="/new-event" element={<NewEvent/>} />
                <Route path="*" element={<Notfound />} />
             </Routes>
          </BrowserRouter>

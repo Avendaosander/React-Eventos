@@ -10,10 +10,31 @@ function FormLogin() {
    const handleSubmit = (e) => {
       e.preventDefault();
       // console.log(email, password);
+      if (email === "") return;
+      if (password === "") return;
 
-      setEmail("");
-      setPassword("");
-      navegar("/dashboard");
+      const login = async () => {
+         await fetch(`http://localhost:3000/login`,{ 
+            method: 'POST',
+            headers: { 
+               "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ 
+               email,
+               password
+            })
+         })
+            .then(res => res.json())
+            .then(res => {
+               if (res.messageError) return console.error(res.messageError)
+               // console.log(res.token);
+               setEmail("");
+               setPassword("");
+               localStorage.setItem("token", JSON.stringify(res.token));
+               navegar("/dashboard")
+            })
+      };
+      login();
    };
 
    return (

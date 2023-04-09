@@ -1,14 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import NextEvents from './NextEvents'
 import RecentEvents from './RecentEvents'
 import bgSlider from '../assets/FONDO-HOME-SLIDER4.jpg'
+import { useNavigate } from 'react-router-dom'
 
 function Dashboard() {
    const [nextEvents, setNextEvents] = useState([])
    // const [todayEvents, setTodayEvents] = useState([])
    const [recentsEvents, setRecentsEvents] = useState([])
+   const navigate = useNavigate()
    
    useEffect(() => {
+      if ("token" in localStorage === false) {
+         return navigate("/login");
+      }
       const obtenerDashboard = async() => {
          await fetch('http://localhost:3000/app/dashboard')
             .then(res => res.json())

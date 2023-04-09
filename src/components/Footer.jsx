@@ -1,4 +1,3 @@
-import GithubLogo from '../assets/Github.jpeg'
 import LogoUVM from '../assets/LogoUVM.jpg'
 import { FaFacebookF, FaTwitter, FaInstagram, FaGithub } from "react-icons/fa";
 

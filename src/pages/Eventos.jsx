@@ -2,16 +2,21 @@ import React from "react";
 import { useState, useEffect } from "react";
 import { FaSearch } from "react-icons/fa";
 import CardEvent from "../components/CardEvent";
+import { useNavigate } from "react-router-dom";
 
 function Eventos() {
    const [events, setEvents] = useState([]);
    const [busqueda, setBusqueda] = useState("");
+   const navigate = useNavigate()
 
    useEffect(() => {
+      if ("token" in localStorage === false) {
+         return navigate("/login");
+      }
       const obtenerEventos = async() => {
          await fetch('http://localhost:3000/app/events')
             .then(res => res.json())
-            .then(res => setEvents(res.evento))
+            .then(res => setEvents(res.eventos))
       }
       obtenerEventos()
    }, [])
