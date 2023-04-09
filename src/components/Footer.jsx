@@ -1,5 +1,6 @@
 import LogoUVM from '../assets/LogoUVM.jpg'
-import { FaFacebookF, FaTwitter, FaInstagram, FaGithub } from "react-icons/fa";
+import LogoUVM2 from '../assets/LOGO-RIF-1.png'
+import { FaFacebookF, FaTwitter, FaInstagram} from "react-icons/fa";
 
 function Footer() {
    return(
@@ -32,8 +33,8 @@ function Footer() {
                   <a href="https://www.instagram.com/univalledelmomboy/?hl=es" target={'_blank'}>
                      <FaInstagram className='text-4xl hover:scale-125'/>
                   </a>
-                  <a href="https://github.com/Avendaosander/FrontEnd-Eventos-UVM" target={'_blank'}>
-                     <FaGithub className='text-4xl hover:scale-125'/>
+                  <a href="https://uvm.edu.ve/" target={'_blank'}>
+                     <img src={LogoUVM2} alt="Logo UVM" className='w-10 rounded-full hover:scale-125' />
                   </a>
                </div>
             </div>
