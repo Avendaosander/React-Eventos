@@ -10,6 +10,7 @@ import Favoritos from "./pages/Favoritos";
 import NewEvent from "./pages/NewEvent";
 import FormProfile from "./components/FormProfile";
 import Welcome from "./pages/Welcome";
+import MyEvents from "./pages/MyEvents";
 
 function App() {
    return (
@@ -24,7 +25,7 @@ function App() {
                <Route path="/dashboard/*" element={<Home/>} >
                   <Route path="events" element={<Eventos/>} />
                   <Route path="favoritos" element={<Favoritos/>} />
-                  <Route path="my-events" element={<Eventos/>} />
+                  <Route path="my-events" element={<MyEvents/>} />
                   <Route path="profile" element={<Perfil/>} />
                   <Route path="update-profile" element={<FormProfile/>} />
                </Route>
