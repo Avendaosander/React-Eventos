@@ -3,26 +3,42 @@ import { useState } from "react";
 import { BsCalendarDate, BsPinMap, BsStarFill, BsStar } from "react-icons/bs";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
 import { Link } from "react-router-dom";
+import { decodeToken } from "react-jwt"
 
-function CardEvent({ event, favorite = false }) {
+function CardEvent({ event, favorite = false, handleFavPage = null }) {
    const [fav, setFav] = useState(favorite);
-   const id = JSON.parse(localStorage.getItem("userID"))
+   const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
+   const userID = decodedID.id
+
+   const updateFavoritesLS = (fav, eventID) => {
+      const favoritos = JSON.parse(localStorage.getItem("favorites"))
+      if (fav) {
+         favoritos.push(eventID)
+         return localStorage.setItem("favorites", JSON.stringify(favoritos))
+      }
+      for (let i = 0; i < favoritos.length; i++) {
+         if (favoritos[i] === eventID) favoritos.splice(i, 1);
+      }
+      localStorage.setItem('favorites', JSON.stringify(favoritos))
+   }
    
    const handleFavorite = () => {
       const validateFavorite = async() => {
-         await fetch(`http://localhost:3000/app/add-favorite/${event._id}`,{ 
+         await fetch(`http://localhost:3000/app/toggle-favorite/${event._id}`,{
             method: 'POST',
             headers: { 
                "Content-Type": "application/json"
             },
             body: JSON.stringify({ 
-               userID: id
+               userID
             })
          })
             .then(res => res.json())
             .then(res => {
                if (res.messageError) return console.error(res.messageError)
-               return setFav(res.fav)
+               updateFavoritesLS(res.fav, event._id)
+               if (!handleFavPage) return setFav(res.fav)
+               handleFavPage()
             })
       }
       validateFavorite()

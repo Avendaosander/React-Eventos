@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
 import { useNavigate, useParams } from "react-router-dom";
+import { decodeToken } from "react-jwt"
 
 function Evento() {
    const [event, setEvent] = useState([]);
@@ -9,6 +10,46 @@ function Evento() {
    const [keywords, setKeywords] = useState([]);
    const param = useParams();
    const navigate = useNavigate()
+   const [fav, setFav] = useState(false);
+   const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
+   const userID = decodedID.id
+   const listFav = JSON.parse(localStorage.getItem("favorites"));
+
+   const buttonFav = fav ? 'text-white text-lg font-semibold bg-red-600 py-1 px-4 rounded-lg' : 'text-white text-lg font-semibold bg-teal-600 py-1 px-4 rounded-lg'
+   const buttonFavText = fav ? 'Eliminar de Favoritos' : 'Añadir a Favoritos'
+
+   const updateFavoritesLS = (fav, eventID) => {
+      const favoritos = JSON.parse(localStorage.getItem("favorites"))
+      if (fav) {
+         favoritos.push(eventID)
+         return localStorage.setItem("favorites", JSON.stringify(favoritos))
+      }
+      for (let i = 0; i < favoritos.length; i++) {
+         if (favoritos[i] === eventID) favoritos.splice(i, 1);
+      }
+      localStorage.setItem('favorites', JSON.stringify(favoritos))
+   }
+
+   const handleFavorite = () => {
+      const validateFavorite = async () => {
+         await fetch(`http://localhost:3000/app/toggle-favorite/${event._id}`, {
+            method: "POST",
+            headers: {
+               "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+               userID,
+            }),
+         })
+            .then(res => res.json())
+            .then(res => {
+               if (res.messageError) return console.error(res.messageError);
+               updateFavoritesLS(res.fav, event._id)
+               return setFav(res.fav);
+            });
+      };
+      validateFavorite();
+   };
 
    useEffect(() => {
       if ("token" in localStorage === false) {
@@ -21,13 +62,12 @@ function Evento() {
                setEvent(res.evento)
                setParticipantes(res.evento.participantes.length)
                setKeywords(res.evento.keywords)
+               if (listFav.includes(res.evento._id)) setFav(true)
             })
       }
       obtenerEvento()
    }, [])
-   // console.log(event);
-   // console.log(participantes);
-   // console.log(keywords);
+   
    return (
       <>
          <Navbar />
@@ -70,8 +110,8 @@ function Evento() {
                   <p className="text-lg p-1">{event.lugar}</p>
                </article>
                <div className="row-span-1 col-span-5 flex justify-center">
-                  <button className="text-white text-lg font-semibold bg-teal-600 py-1 px-4 rounded-lg">
-                     Añadir a Favoritos
+                  <button onClick={handleFavorite} className={buttonFav}>
+                     {buttonFavText}
                   </button>
                </div>
             </section>
@@ -80,9 +120,7 @@ function Evento() {
                   <h3 className="text-center text-xl font-bold text-slate-800 p-1">
                      Descripcion
                   </h3>
-                  <p>
-                     {event.descripcion}
-                  </p>
+                  <p>{event.descripcion}</p>
                </article>
                <article>
                   <h3 className="text-center text-xl font-bold text-slate-800 p-1">

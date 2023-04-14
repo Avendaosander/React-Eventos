@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import bgSlider from "../assets/FONDO-HOME-SLIDER4.jpg";
 import { useNavigate } from "react-router-dom";
+import { decodeToken } from "react-jwt"
 
 function Perfil() {
    const [perfil, setPerfil] = useState([]);
-   const userID = JSON.parse(localStorage.getItem("userID"))
+   const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
+   const userID = decodedID.id
    const navigate = useNavigate()
 
    useEffect(() => {
