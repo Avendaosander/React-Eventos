@@ -12,7 +12,6 @@ function Home() {
       if ("token" in localStorage === false) {
          return navigate("/login");
       }
-      document.getElementById('footer').classList.remove('absolute-footer')
    }, [])
 
    return (

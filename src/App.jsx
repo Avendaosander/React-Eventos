@@ -1,8 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import FormLogin from "./components/FormLogin";
-import FormRegister from "./components/FormRegister";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
+import AuthForms from "./pages/AuthForms";
 import Notfound from "./pages/NotFound";
 import Footer from './components/Footer'
 import Eventos from "./pages/Eventos";
@@ -11,16 +9,17 @@ import Evento from "./pages/Evento";
 import Favoritos from "./pages/Favoritos";
 import NewEvent from "./pages/NewEvent";
 import FormProfile from "./components/FormProfile";
+import Welcome from "./pages/Welcome";
 
 function App() {
    return (
       <>
          <BrowserRouter>
             <Routes>
-               <Route path="/" element={<Login />}>
-                  <Route path="login" element={<FormLogin />} />
-                  <Route path="register" element={<FormRegister />} />
-                  <Route path="register-admin" element={<FormRegister />} />
+               <Route path="/" element={<Welcome />}>
+                  <Route path="login" element={<AuthForms/>} />
+                  <Route path="register" element={<AuthForms/>} />
+                  <Route path="register-admin" element={<AuthForms/>} />
                </Route>
                <Route path="/dashboard/*" element={<Home/>} >
                   <Route path="events" element={<Eventos/>} />
