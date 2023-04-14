@@ -2,9 +2,10 @@ import { NavLink, useNavigate } from 'react-router-dom'
 import LogoUVM from '../assets/LogoUVM.jpg'
 import { BsPower } from 'react-icons/bs'
 import { useState } from 'react'
-
+const iconProfile = 'https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901245/Eventos%20UVM/1680901247543-usuario.png'
 function Navbar() {
    const [show, setShow] = useState(false)
+   const [avatar, setAvatar] = useState(JSON.parse(localStorage.getItem('imgPerfil')))
    const navegar = useNavigate()
    const rol = JSON.parse(localStorage.getItem('rol'))
 
@@ -62,7 +63,7 @@ function Navbar() {
                <>
                   <li className='col-start-9'>
                      <NavLink
-                        to={'/dashboard/eventos'}
+                        to={'/dashboard/my-events'}
                         className={({ isActive }) =>
                            isActive
                               ? 'font-bold text-lg text-white'
@@ -106,9 +107,9 @@ function Navbar() {
                   onClick={toggleOptions}
                >
                   <img
-                     src='https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901101/Eventos%20UVM/1680901103272-usuario.png'
+                     src={avatar ? avatar : iconProfile}
                      alt='Imagen de Perfil'
-                     className='w-9'
+                     className='w-9 rounded-full'
                   />
                </NavLink>
                <div
@@ -123,9 +124,9 @@ function Navbar() {
                      className='flex gap-2 p-2 items-center justify-center hover:bg-teal-400 rounded-lg'
                   >
                      <img
-                        src='https://res.cloudinary.com/dtjgc9qlk/image/upload/v1680901101/Eventos%20UVM/1680901103272-usuario.png'
+                        src={avatar ? avatar : iconProfile}
                         alt='Imagen de Perfil'
-                        className='w-6'
+                        className='w-6 rounded-full'
                      />
                      Perfil
                   </button>
