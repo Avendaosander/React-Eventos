@@ -18,8 +18,10 @@ function FormProfile() {
    const userID = decodedID.id
    const imgProfile = JSON.parse(localStorage.getItem('imgPerfil'))
    const avatar = imgProfile ? imgProfile : bgSlider
+   const token = JSON.parse(localStorage.getItem("token"));
 
    const handleFile = e => {
+      console.log(e.target.files[0]);
       let selectFile = e.target.files[0]
       if (!selectFile) return
       setImgPerfil(selectFile)
@@ -38,7 +40,9 @@ function FormProfile() {
       telefono !== '' && (body.append('telefono', telefono))
 
       const updateProfile = async () => {
+         console.log(body.append);
          await fetch(`http://localhost:3000/app/update-profile/${userID}`, {
+            headers: { Authorization: `Bearer ${token}` },
             method: 'POST',
             body
          })

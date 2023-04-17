@@ -11,6 +11,7 @@ function Perfil() {
    const userID = decodedID.id
    const rol = JSON.parse(localStorage.getItem("rol"))
    const navigate = useNavigate()
+   const token = JSON.parse(localStorage.getItem("token"));
 
    const redirectTo = () => {
       navigate('/dashboard/update-profile')
@@ -22,12 +23,15 @@ function Perfil() {
       }
       const obtenerEventos = async () => {
          await fetch(
-            `http://localhost:3000/app/profile/${userID}`
+            `http://localhost:3000/app/profile/${userID}`,{
+               headers: { Authorization: `Bearer ${token}` }
+            }
          )
             .then((res) => res.json())
             .then((res) => {
                if (res.messageError) return console.error(res.messageError);
-               localStorage.setItem('imgPerfil', JSON.stringify(res.user.imgPerfil.secure_url))
+               const avatar = res.user.imgPerfil ? res.user.imgPerfil.secure_url : res.user.imgPerfil
+               localStorage.setItem('imgPerfil', JSON.stringify(avatar))
                setListFavorites(res.user.favorites.length)
                setConfirmEvents(res.user.confirmEvent.length)
                setPerfil(res.user);

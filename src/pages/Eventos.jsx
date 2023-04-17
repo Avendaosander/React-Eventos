@@ -8,6 +8,7 @@ function Eventos() {
    const [events, setEvents] = useState([]);
    const [favoritos, setFavoritos] = useState([])
    const [busqueda, setBusqueda] = useState("");
+   const token = JSON.parse(localStorage.getItem("token"));
    const navigate = useNavigate()
 
    useEffect(() => {
@@ -15,11 +16,18 @@ function Eventos() {
          return navigate("/login");
       }
       const favoritos = JSON.parse(localStorage.getItem("favorites"))
-      setFavoritos(favoritos)
+      if(favoritos) setFavoritos(favoritos);
       const obtenerEventos = async() => {
-         await fetch('http://localhost:3000/app/events')
+         await fetch('http://localhost:3000/app/events',{
+            headers: { Authorization: `Bearer ${token}` }
+         })
             .then(res => res.json())
-            .then(res => setEvents(res.eventos))
+            .then(res => {
+               if (res.messageError) {
+                  return console.error(res.messageError);
+               }
+               setEvents(res.eventos)
+            })
       }
       obtenerEventos()
    }, [])

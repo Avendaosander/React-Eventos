@@ -8,13 +8,17 @@ function Favoritos() {
    const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
    const userID = decodedID.id
    const navigate = useNavigate()
+   const token = JSON.parse(localStorage.getItem("token"));
 
    const obtenerEventos = async () => {
       await fetch(
-         `http://localhost:3000/app/favorites/${userID}`
+         `http://localhost:3000/app/favorites/${userID}`,{
+            headers: { Authorization: `Bearer ${token}` }
+         }
       )
          .then((res) => res.json())
-         .then((res) => {
+         .then((res) => { 
+            if (res.messageError) return console.error(res.messageError);
             setEvents(res.eventos);
          });
    };
