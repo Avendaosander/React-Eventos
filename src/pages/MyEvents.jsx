@@ -10,6 +10,7 @@ function MyEvents() {
    const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
    const adminID = decodedID.id
    const navigate = useNavigate()
+   const token = JSON.parse(localStorage.getItem("token"));
 
    const redirectTo = () => {
       navigate('/new-event')
@@ -22,9 +23,14 @@ function MyEvents() {
       const favoritos = JSON.parse(localStorage.getItem("favorites"))
       setFavoritos(favoritos)
       const obtenerEventos = async() => {
-         await fetch(`http://localhost:3000/app/my-events/${adminID}`)
+         await fetch(`http://localhost:3000/app/my-events/${adminID}`,{
+            headers: { Authorization: `Bearer ${token}` }
+         })
             .then(res => res.json())
-            .then(res => setEvents(res.misEventos))
+            .then(res => { 
+               if (res.messageError) return console.error(res.messageError);
+               setEvents(res.misEventos)
+            })
       }
       obtenerEventos()
    }, [])

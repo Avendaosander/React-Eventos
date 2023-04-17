@@ -11,6 +11,7 @@ function Evento() {
    const param = useParams();
    const navigate = useNavigate()
    const [fav, setFav] = useState(false);
+   const token = JSON.parse(localStorage.getItem("token"))
    const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
    const userID = decodedID.id
    const listFav = JSON.parse(localStorage.getItem("favorites"));
@@ -36,6 +37,7 @@ function Evento() {
             method: "POST",
             headers: {
                "Content-Type": "application/json",
+               Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({
                userID,
@@ -56,9 +58,12 @@ function Evento() {
          return navigate("/login");
       }
       const obtenerEvento = async() => {
-         await fetch(`http://localhost:3000/events/event/${param.eventID}`)
+         await fetch(`http://localhost:3000/events/event/${param.eventID}`,{
+            headers: { Authorization: `Bearer ${token}` }
+         })
             .then(res => res.json())
             .then(res => {
+               if (res.messageError) return console.error(res.messageError);
                setEvent(res.evento)
                setParticipantes(res.evento.participantes.length)
                setKeywords(res.evento.keywords)

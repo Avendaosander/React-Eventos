@@ -9,6 +9,7 @@ function CardEvent({ event, favorite = false, handleFavPage = null }) {
    const [fav, setFav] = useState(favorite);
    const decodedID = decodeToken(JSON.parse(localStorage.getItem("token")))
    const userID = decodedID.id
+   const token = JSON.parse(localStorage.getItem("token"));
 
    const updateFavoritesLS = (fav, eventID) => {
       const favoritos = JSON.parse(localStorage.getItem("favorites"))
@@ -27,7 +28,8 @@ function CardEvent({ event, favorite = false, handleFavPage = null }) {
          await fetch(`http://localhost:3000/app/toggle-favorite/${event._id}`,{
             method: 'POST',
             headers: { 
-               "Content-Type": "application/json"
+               "Content-Type": "application/json",
+               Authorization: `Bearer ${token}`
             },
             body: JSON.stringify({ 
                userID

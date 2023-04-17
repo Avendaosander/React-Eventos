@@ -10,17 +10,23 @@ function Dashboard() {
    const [recentsEvents, setRecentsEvents] = useState([]);
    const [favoritos, setFavoritos] = useState([]);
    const navigate = useNavigate();
+   const token = JSON.parse(localStorage.getItem("token"));
 
    useEffect(() => {
       if ("token" in localStorage === false) {
          return navigate("/login");
       }
       const favoritos = JSON.parse(localStorage.getItem("favorites"));
-      setFavoritos(favoritos);
+      if(favoritos) setFavoritos(favoritos);
       const obtenerDashboard = async () => {
-         await fetch("http://localhost:3000/app/dashboard")
+         await fetch("http://localhost:3000/app/dashboard",{
+            headers: { Authorization: `Bearer ${token}` }
+         })
             .then(res => res.json())
             .then(res => {
+               if (res.messageError) {
+                  return console.error(res.messageError);
+               }
                setNextEvents(res.proximos);
                // setTodayEvents(res.eventsToday)
                setRecentsEvents(res.recientes);
